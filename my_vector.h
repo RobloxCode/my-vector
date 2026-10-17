@@ -1,5 +1,5 @@
 /*
- * vec.h - generic dynamic array (vector) for C, built with macros.
+ * my_vector.h - generic dynamic array (vector) for C, built with macros.
  *
  * Usage:
  *     VEC_DEFINE(int, IntVec)     (no trailing semicolon)
