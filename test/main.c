@@ -27,6 +27,8 @@ int main(void) {
         printf("%d\n", nums.data[i]);
     }
 
+    printf("num at 0: %d\n", *IntVec_at(&nums, 0));
+
     IntVec_free(&nums);
     return 0;
 }
