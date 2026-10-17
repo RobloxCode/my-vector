@@ -66,27 +66,6 @@ VEC_DEFINE(String, StringVec)
 
 Call `VEC_DEFINE` once per type. If several `.c` files need the same vector type, put the `VEC_DEFINE` line in a shared header.
 
-## API
-
-For `VEC_DEFINE(T, Name)`, the following are generated:
-
-| Function | Description |
-| --- | --- |
-| `Name` | The vector struct: `data` (buffer), `len` (element count), `cap` (capacity) |
-| `void Name_init(Name *v)` | Initialize an empty vector. Does not allocate. |
-| `void Name_free(Name *v)` | Free the buffer and reset the vector. Safe to call twice. |
-| `bool Name_reserve(Name *v, size_t want)` | Ensure capacity for at least `want` elements. |
-| `bool Name_push(Name *v, T item)` | Append an element. |
-| `bool Name_pop(Name *v, T *out)` | Remove the last element, optionally storing it in `out` (may be `NULL`). Returns `false` if empty. |
-| `T *Name_at(Name *v, size_t i)` | Pointer to element `i`, or `NULL` if out of bounds. |
-| `bool Name_insert(Name *v, size_t i, T item)` | Insert at index `i` (0 to `len`), shifting later elements right. |
-| `bool Name_remove(Name *v, size_t i)` | Remove the element at `i`, shifting later elements left. |
-| `void Name_clear(Name *v)` | Set the length to zero but keep the buffer. |
-
-Functions returning `bool` return `false` on failure (out of memory, overflow, or an invalid index) and leave the vector unchanged.
-
-You can also index the buffer directly with `v.data[i]` in hot loops, as long as `i < v.len`.
-
 ## Notes and caveats
 
 - **Pointer types need a typedef.** The type name is pasted into function names, so `char *` must be wrapped as `typedef char *String;` before use.
