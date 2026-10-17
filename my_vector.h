@@ -23,7 +23,7 @@
     }                                                                          \
                                                                                \
     static inline void Name##_free(Name *v) {                                  \
-        free(v);                                                               \
+        free(v->data);                                                         \
         Name##_init(v);                                                        \
     }                                                                          \
                                                                                \
@@ -78,14 +78,33 @@
             *out = v->data[v->len];                                            \
         }                                                                      \
                                                                                \
-        returt true;                                                           \
+        return true;                                                           \
     }                                                                          \
                                                                                \
-    static inline T Name##_at(Name *v, size_t i) {                             \
-        return i < v->len ? &v->data[i] : NULL;                                \
+    static inline bool Name##_insert(Name *v, size_t i, T item) {              \
+        if (i > v->len || !Name##_reserve(v, v->len + 1)) {                    \
+            return false;                                                      \
+        }                                                                      \
+                                                                               \
+        memmove(&v->data[i + 1], &v->data[i], (v->len - i) * sizeof(T));       \
+        v->data[i] = item;                                                     \
+        v->len++;                                                              \
+                                                                               \
+        return true;                                                           \
     }                                                                          \
                                                                                \
-    static inline Name##_clear(Name *v) {                                      \
+    static inline bool Name##_remove(Name *v, size_t i) {                      \
+        if (i >= v->len) {                                                     \
+            return false;                                                      \
+        }                                                                      \
+                                                                               \
+        memmove(&v->data[i], &v->data[i + 1], (v->len - i - 1) * sizeof(T));   \
+        v->len--;                                                              \
+                                                                               \
+        return true;                                                           \
+    }                                                                          \
+                                                                               \
+    static inline void Name##_clear(Name *v) {                                 \
         v->len = 0;                                                            \
     }
 
