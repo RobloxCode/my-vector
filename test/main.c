@@ -29,6 +29,6 @@ int main(void) {
 
     printf("num at 0: %d\n", *IntVec_at(&nums, 0));
 
-    IntVec_free(&nums);
+    IntVec_deinit(&nums);
     return 0;
 }

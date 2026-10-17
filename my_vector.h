@@ -48,7 +48,7 @@
     }                                                                          \
                                                                                \
     /* Free the buffer and reset v to the empty state. Safe to call twice. */  \
-    static inline void Name##_free(Name *v) {                                  \
+    static inline void Name##_deinit(Name *v) {                                \
         free(v->data);                                                         \
         Name##_init(v);                                                        \
     }                                                                          \

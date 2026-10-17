@@ -40,7 +40,7 @@ int main(void)
     }
     printf("\n");
 
-    IntVec_free(&v);
+    IntVec_deinit(&v);
     return 0;
 }
 ```
@@ -69,7 +69,7 @@ Call `VEC_DEFINE` once per type. If several `.c` files need the same vector type
 ## Notes and caveats
 
 - **Pointer types need a typedef.** The type name is pasted into function names, so `char *` must be wrapped as `typedef char *String;` before use.
-- **Ownership.** The vector frees only its own buffer. If you store `malloc`'d pointers, free each one yourself before calling `Name_free`.
+- **Ownership.** The vector frees only its own buffer. If you store `malloc`'d pointers, free each one yourself before calling `Name_deinit`.
 - **Pointer invalidation.** `Name_push`, `Name_insert` and `Name_reserve` may call `realloc`, which invalidates pointers from earlier `Name_at` calls or `v.data`.
 - **Single token types.** `T` must be a single token (use a typedef for things like `unsigned int` or `struct foo *`).
 - **Not thread-safe.** Synchronize access yourself if you share a vector between threads.
